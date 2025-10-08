@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Sobre mí - Portfolio">
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h1 class="text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            Sobre mí
+          </h1>
+          <p class="text-xl text-gray-600 dark:text-gray-300">
+            Conoce mi historia y experiencia
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div>
+            <img 
+              src="/about/logo.webp" 
+              alt="Foto de perfil" 
+              class="w-full max-w-md mx-auto rounded-lg shadow-lg"
+            />
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+              Desarrollador Full Stack
+            </h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+              Con 1 año de experiencia en desarrollo web, me especializo en crear 
+              aplicaciones modernas y escalables. Mi pasión es transformar ideas complejas 
+              en soluciones elegantes y funcionales.
+            </p>
+            <p class="text-lg text-gray-600 dark:text-gray-300">
+              Cuando no estoy programando, dedico mi tiempo a explorar nuevas tecnologías 
+              y frameworks que están revolucionando el desarrollo web. Me apasiona aprender 
+              continuamente, ya sea experimentando con nuevas herramientas, estudiando 
+              arquitecturas modernas o manteniéndome actualizado con las últimas tendencias 
+              del ecosistema de desarrollo.
+            </p>
+          </div>
+        </div>
+
+        <div class="mb-16">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+            Habilidades Técnicas
+          </h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Frontend</h3>
+              <ul class="space-y-2 text-gray-600 dark:text-gray-300">
+                <li>• HTML5 & CSS3</li>
+                <li>• JavaScript ES6+</li>
+                <li>• React & Vite</li>
+                <li>• Tailwind CSS</li>
+                <li>• Astro</li>
+              </ul>
+            </div>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Backend</h3>
+              <ul class="space-y-2 text-gray-600 dark:text-gray-300">
+                <li>• Node.js & Express</li>
+                <li>• Redis</li>
+                <li>• APIs RESTful</li>
+                <li>• Autenticación JWT</li>
+                <li>• Middleware personalizado</li>
+              </ul>
+            </div>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Herramientas</h3>
+              <ul class="space-y-2 text-gray-600 dark:text-gray-300">
+                <li>• Git & GitHub</li>
+                <li>• Vercel & Netlify</li>
+                <li>• Vite & Webpack</li>
+                <li>• Redis Cloud</li>
+                <li>• APIs de terceros</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-16">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+            Timeline Profesional
+          </h2>
+          <div class="space-y-8">
+            <div class="flex items-start space-x-4">
+              <div class="flex-shrink-0 w-4 h-4 bg-primary-600 rounded-full mt-2"></div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Desarrollador Full Stack</h3>
+                <p class="text-primary-600 dark:text-primary-400 font-medium">
+                  <a href="https://www.instagram.com/freemindunion/" target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
+                    FreeMind Union
+                  </a> • 2023 - 2025
+                </p>
+                <p class="text-gray-600 dark:text-gray-300 mt-2">
+                  Desarrollo de soluciones web completas incluyendo landing pages optimizadas, 
+                  sistemas de acortamiento de URLs y plataformas de certificados automáticos. 
+                  Especialización en crear experiencias digitales que combinan funcionalidad 
+                  y diseño para maximizar la conversión y eficiencia operativa.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <a 
+            href="/contact" 
+            class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+          >
+            Trabajemos Juntos
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,207 @@
+---
+title: "Acortador de URLs Serverless con Códigos QR"
+description: "Aplicación web serverless para acortar URLs con generación automática de códigos QR y gestión de enlaces personalizados, desplegada en Vercel con arquitectura Edge."
+image: "/projects/acortador-url.webp"
+tags: ["JavaScript", "Node.js", "Redis", "Vercel", "Edge Functions"]
+pubDate: 2024-02-15
+featured: false
+github: "https://github.com/nacho202/acortador-urls"
+live: "https://acortador-urls-zeta.vercel.app/"
+---
+
+## Descripción del Proyecto
+
+Acortador de URLs de **alto rendimiento** construido con **arquitectura serverless**, que permite convertir enlaces largos en URLs cortas personalizables con gestión completa de enlaces.
+
+El proyecto está implementado con Vercel Edge Functions para redirecciones ultra-rápidas y Redis para almacenamiento persistente, garantizando máxima disponibilidad y velocidad.
+
+---
+
+## Características Principales
+
+### Funcionalidades Core
+
+Sistema completo de acortamiento de URLs con las siguientes capacidades:
+
+- Generación de URLs cortas con slugs personalizados o aleatorios
+- Redirección ultra-rápida utilizando Edge Functions (menos de 100ms)
+- Códigos QR dinámicos para cada enlace acortado con descarga directa
+- Gestión completa de enlaces con edición y eliminación
+- Historial local por usuario sin necesidad de registro
+- Interfaz moderna y responsiva con diseño minimalista
+
+### Características Avanzadas
+
+Funcionalidades que elevan la experiencia de usuario:
+
+- **Slugs personalizados** para URLs memorables y de marca
+- **QR automáticos** con descarga directa para compartir fácilmente
+- **Sin registro** gracias a gestión con cookies HttpOnly seguras
+- **Edge Computing** para redirecciones globales de baja latencia
+- **Persistencia** garantizada con almacenamiento en Redis (Upstash)
+- **Mobile-first** con diseño responsive optimizado para dispositivos móviles
+
+---
+
+## Stack Tecnológico
+
+### Frontend
+
+Tecnologías web fundamentales para máxima velocidad y compatibilidad:
+
+- **HTML5, CSS3, JavaScript Vanilla** sin frameworks para carga instantánea
+- **Diseño minimalista** y mobile-first
+- **Sin dependencias** de frontend para máxima velocidad
+- **Responsive** para todos los dispositivos
+
+### Backend
+
+Arquitectura serverless moderna y escalable:
+
+- **Node.js** con Vercel Serverless Functions
+- **Edge Runtime** para redirecciones de alta velocidad
+- **APIs RESTful** para operaciones CRUD completas
+- **Cookies HttpOnly** para gestión segura de sesiones
+
+### Base de Datos
+
+Sistema de almacenamiento optimizado para alto rendimiento:
+
+- **Redis (Upstash)** para almacenamiento persistente
+- **Hashes y Sorted Sets** para estructuras optimizadas
+- **Sin límite de almacenamiento** en plan gratuito
+
+### Deploy & DevOps
+
+Infraestructura moderna con despliegue automático:
+
+- **Vercel** con CI/CD automático desde GitHub
+- **Edge Functions** distribuidas globalmente en +100 ubicaciones
+- **Control de versiones** con Git & GitHub
+- **Optimizado** para Vercel Hobby Plan (menos de 12 funciones)
+
+### Generación de QR
+
+Sistema de códigos QR integrado:
+
+- **API externa** para generación de códigos QR escaneables
+- **Descarga directa** en formato PNG de alta calidad
+- **QR dinámicos** actualizables en tiempo real
+
+---
+
+## Arquitectura Serverless
+
+### Optimizaciones de Rendimiento
+
+Sistema optimizado para máxima velocidad y eficiencia:
+
+- **Redirecciones instantáneas** usando Edge Runtime con latencia menor a 100ms
+- **Almacenamiento persistente** con Redis para alta disponibilidad
+- **Cookies HttpOnly** para gestión segura sin base de datos de usuarios
+- **JavaScript vanilla puro** sin frameworks para carga ultrarrápida
+- **Arquitectura completamente escalable** sin gestión de servidores
+
+### Arquitectura Edge
+
+Distribución global para mínima latencia:
+
+- **Edge Functions** distribuidas en más de 100 ubicaciones globales
+- **Redirecciones desde el edge** más cercano al usuario
+- **Latencia mínima** garantizada en cualquier parte del mundo
+- **Escalado automático** sin configuración manual
+
+### Seguridad
+
+Múltiples capas de seguridad implementadas:
+
+- **Cookies HttpOnly** para prevenir ataques XSS
+- **Validación robusta de URLs** en el backend
+- **Rate limiting** para prevenir abuso del servicio
+- **Sanitización de inputs** en todas las operaciones
+
+---
+
+## Desafíos Técnicos Resueltos
+
+### Desafío 1: Redirecciones Ultra-Rápidas
+
+**Problema**: Minimizar la latencia en las redirecciones a nivel global para ofrecer la mejor experiencia de usuario.
+
+**Solución**: Implementé Vercel Edge Functions que se ejecutan en el edge más cercano al usuario, logrando latencias menores a 100ms en cualquier parte del mundo. Esto garantiza que las redirecciones sean prácticamente instantáneas.
+
+### Desafío 2: Gestión sin Base de Datos Tradicional
+
+**Problema**: Gestionar sesiones de usuario sin implementar un sistema de autenticación complejo que afecte la experiencia.
+
+**Solución**: Utilicé cookies HttpOnly seguras para almacenar el ID de sesión del usuario, permitiendo gestión completa de enlaces sin registro ni base de datos de usuarios. Esto simplifica enormemente la arquitectura.
+
+### Desafío 3: Límites de Vercel Hobby Plan
+
+**Problema**: Vercel Hobby Plan tiene límite de 12 serverless functions, lo que requiere optimización cuidadosa.
+
+**Solución**: Optimicé la arquitectura para usar solo funciones esenciales, consolidando operaciones relacionadas y utilizando Edge Functions para redirecciones, quedando dentro del límite gratuito sin sacrificar funcionalidad.
+
+---
+
+## Métricas de Rendimiento
+
+Resultados medibles que demuestran la eficiencia del sistema:
+
+- **Menos de 100ms** de latencia en redirecciones Edge
+- **99.9%** de uptime garantizado con Vercel
+- **Escalado automático** sin límites de tráfico
+- **0ms** de cold start con Edge Functions
+- **Distribución global** en más de 100 ubicaciones
+
+## Tecnologías Clave
+
+| Categoría | Tecnología | Propósito |
+|-----------|-----------|-----------|
+| Frontend | JavaScript Vanilla | Sin dependencias, máxima velocidad |
+| Backend | Vercel Serverless | Funciones escalables automáticamente |
+| Edge | Vercel Edge Runtime | Redirecciones ultra-rápidas |
+| Base de Datos | Redis (Upstash) | Almacenamiento persistente |
+| QR Codes | API Externa | Generación de códigos QR |
+| Deploy | Vercel + GitHub | CI/CD automático |
+
+## Funcionalidades del Dashboard
+
+### Gestión de Enlaces
+- **Crear URLs cortas** con slugs personalizados o aleatorios
+- **Editar enlaces** existentes (cambiar destino)
+- **Eliminar enlaces** del historial
+- **Copiar al portapapeles** con un clic
+- **Descargar QR** en formato PNG
+
+### Historial de Usuario
+- **Persistencia local** con cookies HttpOnly
+- **Sin necesidad de registro** o login
+- **Vista de todos los enlaces** creados por el usuario
+- **Gestión completa** desde el navegador
+
+## Aprendizajes Clave
+
+- **Arquitectura serverless** con Vercel Functions
+- **Edge Computing** para redirecciones globales
+- **Redis** y estructuras de datos optimizadas
+- **Cookies HttpOnly** para seguridad sin autenticación
+- **JavaScript vanilla** para máximo rendimiento
+- **CI/CD** automático con GitHub y Vercel
+
+## Ventajas de la Arquitectura Serverless
+
+✅ **Cero mantenimiento** de servidores
+✅ **Escalado automático** según demanda
+✅ **Costos variables** (solo pagas lo que usas)
+✅ **Despliegue instantáneo** con cada commit
+✅ **Alta disponibilidad** sin configuración
+✅ **Distribución global** automática
+
+## Próximas Mejoras
+
+- **Analytics básico** para tracking de clics
+- **Expiración automática** de enlaces
+- **API pública** para integraciones
+- **Temas personalizables** (dark/light mode)
+- **Exportación masiva** de enlaces

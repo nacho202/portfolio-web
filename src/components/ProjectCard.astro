@@ -1,0 +1,53 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  slug: string;
+  featured?: boolean;
+}
+
+const { title, description, image, tags, slug, featured = false } = Astro.props;
+---
+
+<article class="group relative overflow-hidden rounded-lg bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300">
+  <div class="aspect-video overflow-hidden">
+    <img 
+      src={image} 
+      alt={title}
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+      loading="lazy"
+    />
+  </div>
+  
+  <div class="p-6">
+    <div class="flex flex-wrap gap-2 mb-3">
+      {tags.map((tag) => (
+        <span class="px-2 py-1 text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full">
+          {tag}
+        </span>
+      ))}
+    </div>
+    
+    <h3 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors text-xl">
+      {title}
+    </h3>
+    
+    <p class="text-gray-600 dark:text-gray-300 mt-2 text-sm">
+      {description}
+    </p>
+    
+    <div class="mt-4">
+      <a 
+        href={`/projects/${slug}`}
+        class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium transition-colors"
+      >
+        Ver proyecto
+        <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</article>

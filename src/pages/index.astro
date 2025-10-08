@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+  .slice(0, 6);
+---
+
+<Layout title="Portfolio - Desarrollador Full Stack">
+  <section class="py-20 bg-gradient-to-br from-primary-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+          Hola, soy <span class="text-primary-600 dark:text-primary-400">Nacho</span>
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+          Desarrollador Full Stack apasionado por crear experiencias digitales excepcionales. 
+          Especializado en HTML, CSS, JavaScript y tecnologías modernas.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a 
+            href="/projects" 
+            class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+          >
+            Ver Proyectos
+          </a>
+          <a 
+            href="/contact" 
+            class="border border-primary-600 text-primary-600 dark:text-primary-400 hover:bg-primary-600 hover:text-white px-8 py-3 rounded-lg font-medium transition-colors"
+          >
+            Contactar
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          Últimos Proyectos
+        </h2>
+        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          Algunos de mis trabajos más recientes y destacados
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {featuredProjects.map((project, index) => (
+          <ProjectCard 
+            title={project.data.title}
+            description={project.data.description}
+            image={project.data.image}
+            tags={project.data.tags}
+            slug={project.slug}
+            featured={index === 0}
+          />
+        ))}
+      </div>
+      
+      <div class="text-center mt-12">
+        <a 
+          href="/projects" 
+          class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+        >
+          Ver Todos los Proyectos
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-gray-50 dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-6">
+          ¿Trabajamos juntos?
+        </h2>
+        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
+          Siempre estoy interesado en nuevos retos y oportunidades. 
+          ¡Hablemos sobre eso que querés hacer realidad!
+        </p>
+        <a 
+          href="/contact" 
+          class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+        >
+          Empezar Conversación
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
