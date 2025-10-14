@@ -10,26 +10,34 @@ const featuredProjects = allProjects
 ---
 
 <Layout title="Portfolio - Desarrollador Full Stack">
-  <section class="py-20 bg-gradient-to-br from-primary-50 to-white dark:from-gray-900 dark:to-gray-800">
+  <section class="py-20" style="background-color: var(--hero-bg);">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-          Hola, soy <span class="text-primary-600 dark:text-primary-400">Nacho</span>
+        <h1 class="text-5xl md:text-6xl font-bold mb-6" style="color: var(--hero-text);">
+          <span data-i18n="home.greeting">Hola, soy</span> <span style="color: var(--nacho-text);" data-i18n="home.name">Nacho</span>
         </h1>
-        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+        <p class="text-xl mb-8 max-w-2xl mx-auto" style="color: var(--hero-description);" data-i18n="home.description">
           Desarrollador Full Stack apasionado por crear experiencias digitales excepcionales. 
           Especializado en HTML, CSS, JavaScript y tecnologías modernas.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a 
             href="/projects" 
-            class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+            class="px-8 py-3 rounded-lg font-medium transition-colors"
+            style="background-color: var(--btn-primary-bg); color: var(--btn-primary-text);"
+            onmouseover="this.style.backgroundColor='var(--btn-primary-hover)'"
+            onmouseout="this.style.backgroundColor='var(--btn-primary-bg)'"
+            data-i18n="home.viewProjects"
           >
             Ver Proyectos
           </a>
           <a 
             href="/contact" 
-            class="border border-primary-600 text-primary-600 dark:text-primary-400 hover:bg-primary-600 hover:text-white px-8 py-3 rounded-lg font-medium transition-colors"
+            class="px-8 py-3 rounded-lg font-medium transition-colors"
+            style="border: 2px solid var(--btn-secondary-border); color: var(--btn-secondary-text);"
+            onmouseover="this.style.backgroundColor='var(--btn-secondary-border)'; this.style.color='white'"
+            onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--btn-secondary-text)'"
+            data-i18n="home.contactMe"
           >
             Contactar
           </a>
@@ -41,10 +49,10 @@ const featuredProjects = allProjects
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 class="text-4xl font-bold mb-4" style="color: var(--section-title);" data-i18n="home.latestProjects">
           Últimos Proyectos
         </h2>
-        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p class="text-xl max-w-2xl mx-auto" style="color: var(--section-description);" data-i18n="home.latestProjectsDesc">
           Algunos de mis trabajos más recientes y destacados
         </p>
       </div>
@@ -65,7 +73,11 @@ const featuredProjects = allProjects
       <div class="text-center mt-12">
         <a 
           href="/projects" 
-          class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+          class="px-8 py-3 rounded-lg font-medium transition-colors"
+          style="background-color: var(--btn-all-projects-bg); color: var(--btn-all-projects-text);"
+          onmouseover="this.style.backgroundColor='var(--btn-primary-hover)'"
+          onmouseout="this.style.backgroundColor='var(--btn-all-projects-bg)'"
+          data-i18n="home.allProjects"
         >
           Ver Todos los Proyectos
         </a>
@@ -73,19 +85,23 @@ const featuredProjects = allProjects
     </div>
   </section>
 
-  <section class="py-20 bg-gray-50 dark:bg-gray-800">
+  <section class="py-20" style="background-color: var(--work-together-bg);">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-6">
+        <h2 class="text-4xl font-bold mb-6" style="color: var(--section-title);" data-i18n="home.workTogether">
           ¿Trabajamos juntos?
         </h2>
-        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
+        <p class="text-xl mb-8" style="color: var(--section-description);" data-i18n="home.workTogetherDesc">
           Siempre estoy interesado en nuevos retos y oportunidades. 
           ¡Hablemos sobre eso que querés hacer realidad!
         </p>
         <a 
           href="/contact" 
-          class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+          class="px-8 py-3 rounded-lg font-medium transition-colors"
+          style="background-color: var(--btn-conversation-bg); color: var(--btn-conversation-text);"
+          onmouseover="this.style.backgroundColor='var(--btn-primary-hover)'"
+          onmouseout="this.style.backgroundColor='var(--btn-conversation-bg)'"
+          data-i18n="home.startConversation"
         >
           Empezar Conversación
         </a>

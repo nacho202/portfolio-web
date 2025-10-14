@@ -11,7 +11,7 @@ export interface Props {
 const { title, description, image, tags, slug, featured = false } = Astro.props;
 ---
 
-<article class="group relative overflow-hidden rounded-lg bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300">
+<article class="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full" style="background-color: var(--card-bg);">
   <div class="aspect-video overflow-hidden">
     <img 
       src={image} 
@@ -21,27 +21,31 @@ const { title, description, image, tags, slug, featured = false } = Astro.props;
     />
   </div>
   
-  <div class="p-6">
+  <div class="p-6 flex flex-col flex-grow">
     <div class="flex flex-wrap gap-2 mb-3">
       {tags.map((tag) => (
-        <span class="px-2 py-1 text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full">
+        <span class="px-2 py-1 text-xs font-medium rounded-full" style="background-color: var(--card-tag-bg); color: var(--card-tag-text);">
           {tag}
         </span>
       ))}
     </div>
     
-    <h3 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors text-xl">
+    <h3 class="font-bold transition-colors text-xl" style="color: var(--card-title);" data-project-title data-project-slug={slug}>
       {title}
     </h3>
     
-    <p class="text-gray-600 dark:text-gray-300 mt-2 text-sm">
+    <p class="mt-2 text-sm flex-grow" style="color: var(--card-description);" data-project-description data-project-slug={slug}>
       {description}
     </p>
     
     <div class="mt-4">
       <a 
         href={`/projects/${slug}`}
-        class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium transition-colors"
+        class="inline-flex items-center font-medium transition-colors"
+        style="color: var(--card-link);"
+        onmouseover="this.style.opacity='0.8'"
+        onmouseout="this.style.opacity='1'"
+        data-i18n="projects.viewProject"
       >
         Ver proyecto
         <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

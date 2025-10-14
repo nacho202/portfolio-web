@@ -1,4 +1,6 @@
 ---
+import { translations, type Language } from '../utils/translations';
+
 export interface Props {
   title: string;
   description?: string;
@@ -7,12 +9,80 @@ export interface Props {
 
 const { title, description = "Portfolio personal de desarrollador", image } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Script para obtener traducciones del lado del cliente
+const translationsJSON = JSON.stringify(translations);
 ---
 
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es" class="scroll-smooth" id="html-root">
   <head>
     <meta charset="UTF-8" />
+    
+    <!-- Script para aplicar tema e idioma inmediatamente y evitar flash - DEBE IR PRIMERO -->
+    <script is:inline define:vars={{ translationsJSON }}>
+      // Ejecutar inmediatamente sin esperar nada
+      (function() {
+        try {
+          // ===== APLICAR TEMA =====
+          const savedTheme = localStorage.getItem('portfolio-theme');
+          
+          let theme;
+          if (savedTheme) {
+            theme = savedTheme;
+          } else if (window.matchMedia) {
+            // Detectar preferencia del sistema
+            theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          } else {
+            theme = 'dark';
+          }
+          
+          // Aplicar clase inmediatamente
+          const htmlElement = document.documentElement;
+          if (theme === 'light') {
+            htmlElement.classList.add('light');
+          } else {
+            htmlElement.classList.add('dark');
+          }
+          
+          // ===== DETECTAR Y GUARDAR IDIOMA =====
+          let currentLang = localStorage.getItem('portfolio-language');
+          
+          if (!currentLang || !['es', 'en', 'pt'].includes(currentLang)) {
+            // Detectar idioma del navegador
+            const browserLang = navigator.language || navigator.languages?.[0] || 'es';
+            
+            if (browserLang.startsWith('es')) {
+              currentLang = 'es';
+            } else if (browserLang.startsWith('en')) {
+              currentLang = 'en';
+            } else if (browserLang.startsWith('pt')) {
+              currentLang = 'pt';
+            } else {
+              currentLang = 'es';
+            }
+            
+            localStorage.setItem('portfolio-language', currentLang);
+          }
+          
+          // Guardar el idioma en un atributo del HTML para usarlo después
+          htmlElement.setAttribute('data-lang', currentLang);
+          htmlElement.setAttribute('lang', currentLang);
+          
+          // Guardar las traducciones globalmente
+          window.__PORTFOLIO_TRANSLATIONS__ = JSON.parse(translationsJSON);
+          window.__PORTFOLIO_LANG__ = currentLang;
+          
+        } catch (e) {
+          // Si hay error, usar valores por defecto
+          document.documentElement.classList.add('dark');
+          document.documentElement.setAttribute('data-lang', 'es');
+          document.documentElement.setAttribute('lang', 'es');
+          window.__PORTFOLIO_LANG__ = 'es';
+        }
+      })();
+    </script>
+    
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -34,68 +104,396 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     {image && <meta name="twitter:image" content={image} />}
     
     <style>
+      /* Variables CSS para temas */
+      :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-tertiary: #f1f5f9;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --text-tertiary: #94a3b8;
+        --border-color: #e2e8f0;
+        --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        --scrollbar-track: #f1f5f9;
+        --scrollbar-thumb: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        --scrollbar-thumb-hover: linear-gradient(135deg, #2563eb, #1e40af);
+        --header-bg: rgba(255, 255, 255, 0.95);
+        
+        /* Colores específicos para tema claro */
+        --portfolio-text: #1e40af; /* Azul oscuro */
+        --language-text: #1e40af; /* Azul oscuro */
+        --theme-icon: #1e40af; /* Azul oscuro */
+        --hero-bg: #d1d5db; /* Gris un poquito más oscuro */
+        --hero-text: #000000; /* Negro */
+        --hero-description: #000000; /* Negro */
+        --nacho-text: #1e40af; /* Azul oscuro */
+        --btn-primary-bg: #1e40af; /* Azul oscuro */
+        --btn-primary-hover: #1e3a8a; /* Azul más oscuro para hover */
+        --btn-primary-text: #ffffff; /* Blanco */
+        --btn-secondary-border: #1e40af; /* Azul oscuro */
+        --btn-secondary-text: #1e40af; /* Azul oscuro */
+        --section-title: #000000; /* Negro */
+        --section-description: #374151; /* Gris bastante oscuro */
+        --card-bg:rgb(227, 229, 233); /* Gris claro */
+        --card-title: #000000; /* Negro */
+        --card-description: #374151; /* Gris oscuro */
+        --card-tag-bg:rgb(210, 213, 218); /* Gris un poco más oscuro para contraste */
+        --card-tag-text: #1f2937; /* Gris muy oscuro */
+        --card-link: #1e40af; /* Azul oscuro */
+        --btn-all-projects-bg: #1e40af; /* Azul oscuro */
+        --btn-all-projects-text: #ffffff; /* Blanco */
+        --work-together-bg: #d1d5db; /* Mismo gris que el hero */
+        --btn-conversation-bg: #1e40af; /* Azul oscuro */
+        --btn-conversation-text: #ffffff; /* Blanco */
+        --footer-bg: #d1d5db; /* Mismo gris que las otras secciones */
+        --filter-bg: #e5e7eb; /* Gris claro para filtros inactivos */
+        --filter-text: #374151; /* Gris oscuro para texto */
+        --filter-hover-bg: #1e40af; /* Azul oscuro para hover - igual que activo */
+        --filter-hover-text: #ffffff; /* Blanco para hover */
+        --filter-active-bg: #1e40af; /* Azul oscuro para activo */
+        --filter-active-text: #ffffff; /* Blanco para activo */
+        --dropdown-bg: #ffffff; /* Blanco para dropdown */
+        --dropdown-border: #e2e8f0; /* Borde gris claro */
+        --dropdown-text: #374151; /* Gris oscuro para texto */
+        --dropdown-hover-bg: #f3f4f6; /* Gris claro para hover */
+        --skills-bg: #e5e7eb; /* Gris un poquito más oscuro para cards de habilidades */
+        --skills-title: #000000; /* Negro para títulos de habilidades */
+        --skills-text: #000000; /* Negro para texto de habilidades */
+        --timeline-text: #000000; /* Negro para timeline */
+        --company-text: #1e40af; /* Azul oscuro para empresa */
+        --image-border: linear-gradient(135deg, #0ea5e9, #8b5cf6); /* Degradado celeste a morado */
+        --highlight-text: #1e40af; /* Azul oscuro para resaltar */
+        --social-bg: #e5e7eb; /* Gris claro para botones sociales */
+        --social-icon: #374151; /* Gris oscuro para iconos */
+        --social-hover-bg: #1e40af; /* Azul oscuro para hover */
+        --input-bg: #ffffff; /* Blanco para inputs */
+        --input-border: #d1d5db; /* Gris claro para bordes */
+        --input-text: #000000; /* Negro para texto en inputs */
+        --label-text: #000000; /* Negro para labels */
+        --prose-strong: #1e40af; /* Azul oscuro para palabras resaltadas */
+        --prose-links: #1e40af; /* Azul oscuro para enlaces */
+        --prose-code: #000000; /* Negro para código inline */
+        --prose-code-bg: #e0e7ff; /* Fondo azul muy claro para código */
+        --prose-code-weight: 700; /* Negrita para código */
+        --btn-github: #1f2937; /* Gris muy oscuro para botón GitHub */
+        --btn-github-hover: #111827; /* Gris aún más oscuro para hover */
+        --btn-demo: #1e3a8a; /* Azul oscuro (un poquito más claro) para botón Demo */
+        --nav-link: #1e40af; /* Azul oscuro para enlaces de navegación */
+        --nav-link-hover: #2563eb; /* Azul medio para hover de navbar */
+        --contact-icon-bg: #1e40af; /* Azul oscuro para fondo de iconos de contacto */
+        --contact-icon-color: #ffffff; /* Blanco para iconos de contacto */
+        --prose-h2:rgb(6, 32, 90); /* Azul muy oscuro para h2 */
+        --prose-h3:rgb(22, 22, 22); /* Negro para h3 */
+      }
+      
+      /* Tema oscuro (por defecto) */
+      .dark {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --bg-tertiary: #334155;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-tertiary: #94a3b8;
+        --border-color: #334155;
+        --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+        --scrollbar-track: #1f2937;
+        --scrollbar-thumb: linear-gradient(135deg, #6366f1, #4f46e5);
+        --scrollbar-thumb-hover: linear-gradient(135deg, #5b21b6, #7c3aed);
+        --header-bg: rgba(15, 23, 42, 0.95);
+        
+        /* Colores específicos para tema oscuro */
+        --portfolio-text: #60a5fa; /* Azul claro */
+        --language-text: #60a5fa; /* Azul claro */
+        --theme-icon: #60a5fa; /* Azul claro */
+        --hero-bg: #1e293b; /* Gris oscuro */
+        --hero-text: #ffffff; /* Blanco */
+        --hero-description: #cbd5e1; /* Gris claro */
+        --nacho-text: #60a5fa; /* Azul claro */
+        --btn-primary-bg: #3b82f6; /* Azul */
+        --btn-primary-hover: #2563eb; /* Azul más oscuro para hover */
+        --btn-primary-text: #ffffff; /* Blanco */
+        --btn-secondary-border: #60a5fa; /* Azul claro */
+        --btn-secondary-text: #60a5fa; /* Azul claro */
+        --section-title: #ffffff; /* Blanco */
+        --section-description: #cbd5e1; /* Gris claro */
+        --card-bg: #1e293b; /* Gris oscuro */
+        --card-title: #ffffff; /* Blanco */
+        --card-description: #cbd5e1; /* Gris claro */
+        --card-tag-bg: #374151; /* Gris medio */
+        --card-tag-text: #f3f4f6; /* Gris claro */
+        --card-link: #60a5fa; /* Azul claro */
+        --btn-all-projects-bg: #3b82f6; /* Azul */
+        --btn-all-projects-text: #ffffff; /* Blanco */
+        --work-together-bg: #1e293b; /* Gris oscuro */
+        --btn-conversation-bg: #3b82f6; /* Azul */
+        --btn-conversation-text: #ffffff; /* Blanco */
+        --footer-bg: #1e293b; /* Gris oscuro */
+        --filter-bg: #374151; /* Gris medio para filtros inactivos */
+        --filter-text: #f3f4f6; /* Gris claro para texto */
+        --filter-hover-bg: #8b5cf6; /* Morado para hover */
+        --filter-hover-text: #ffffff; /* Blanco para hover */
+        --filter-active-bg: #3b82f6; /* Azul para activo */
+        --filter-active-text: #ffffff; /* Blanco para activo */
+        --dropdown-bg: #1e293b; /* Gris oscuro para dropdown */
+        --dropdown-border: #374151; /* Borde gris medio */
+        --dropdown-text: #f3f4f6; /* Gris claro para texto */
+        --dropdown-hover-bg: #374151; /* Gris medio para hover */
+        --skills-bg: #1e293b; /* Gris oscuro para cards de habilidades */
+        --skills-title: #ffffff; /* Blanco para títulos de habilidades */
+        --skills-text: #cbd5e1; /* Gris claro para texto de habilidades */
+        --timeline-text: #ffffff; /* Blanco para timeline */
+        --company-text: #60a5fa; /* Azul claro para empresa */
+        --image-border: transparent; /* Sin borde en tema oscuro */
+        --highlight-text: #60a5fa; /* Azul claro para resaltar - igual que company */
+        --social-bg: #374151; /* Gris medio para botones sociales */
+        --social-icon: #f3f4f6; /* Gris claro para iconos */
+        --social-hover-bg: #8b5cf6; /* Morado para hover */
+        --input-bg: #1e293b; /* Gris oscuro para inputs */
+        --input-border: #374151; /* Gris medio para bordes */
+        --input-text: #ffffff; /* Blanco para texto en inputs */
+        --label-text: #cbd5e1; /* Gris claro para labels */
+        --prose-strong: #60a5fa; /* Azul/celeste para palabras resaltadas */
+        --prose-links: #60a5fa; /* Azul/celeste para enlaces */
+        --prose-code: #ffffff; /* Blanco para código inline */
+        --prose-code-bg: #1e293b; /* Fondo gris oscuro para código */
+        --prose-code-weight: 700; /* Negrita para código */
+        --btn-github: #ffffff; /* Blanco para botón GitHub */
+        --btn-github-hover: #f3f4f6; /* Gris muy claro para hover */
+        --btn-demo: #3b82f6; /* Azul claro para botón Demo */
+        --nav-link: #60a5fa; /* Azul/celeste para enlaces de navegación */
+        --nav-link-hover: #60a5fa; /* Mismo azul/celeste para hover */
+        --contact-icon-bg: #1e293b; /* Gris oscuro para fondo de iconos - como antes */
+        --contact-icon-color: #60a5fa; /* Celeste para iconos - como antes */
+        --prose-h2: #ffffff; /* Blanco para h2 */
+        --prose-h3: #ffffff; /* Blanco para h3 */
+      }
+      
+      /* Aplicar variables a elementos */
+      body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+      }
+      
       /* Scrollbar personalizada */
       ::-webkit-scrollbar {
         width: 8px;
       }
       
       ::-webkit-scrollbar-track {
-        background: #f1f5f9;
+        background: var(--scrollbar-track);
         border-radius: 4px;
       }
       
       ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        background: var(--scrollbar-thumb);
         border-radius: 4px;
         transition: all 0.3s ease;
       }
       
       ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #2563eb, #1e40af);
+        background: var(--scrollbar-thumb-hover);
         transform: scale(1.1);
-      }
-      
-      /* Modo oscuro para scrollbar */
-      @media (prefers-color-scheme: dark) {
-        ::-webkit-scrollbar-track {
-          background: #1f2937;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-          background: linear-gradient(135deg, #6366f1, #4f46e5);
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(135deg, #5b21b6, #7c3aed);
-        }
       }
       
       /* Firefox scrollbar */
       html {
         scrollbar-width: thin;
-        scrollbar-color: #3b82f6 #f1f5f9;
+        scrollbar-color: #3b82f6 var(--scrollbar-track);
       }
       
-      @media (prefers-color-scheme: dark) {
-        html {
-          scrollbar-color: #6366f1 #1f2937;
-        }
+      .dark {
+        scrollbar-color: #6366f1 var(--scrollbar-track);
+      }
+      
+      /* Transiciones suaves para cambio de tema */
+      * {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+      }
+      
+      /* Estilos para botones de GitHub y Demo */
+      .github-btn {
+        background-color: var(--btn-github);
+        color: white;
+      }
+      
+      .dark .github-btn {
+        background-color: var(--btn-github);
+        color: #1f2937;
+      }
+      
+      .github-btn:hover {
+        background-color: var(--btn-github-hover);
+        transform: scale(1.05);
+      }
+      
+      .demo-btn {
+        background-color: var(--btn-demo);
+        color: white;
+      }
+      
+      .demo-btn:hover {
+        transform: scale(1.05);
+      }
+      
+      /* Estilos para h2 y h3 en prose */
+      .prose h2 {
+        color: var(--prose-h2) !important;
+      }
+      
+      .prose h3 {
+        color: var(--prose-h3) !important;
+      }
+      
+      /* Ocultar body completamente hasta que las traducciones estén listas */
+      body:not(.translations-ready) {
+        opacity: 0;
+      }
+      
+      body.translations-ready {
+        opacity: 1;
+        transition: opacity 0.1s ease-in;
       }
     </style>
   </head>
-  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+  <body style="background-color: var(--bg-primary); color: var(--text-primary);">
+    <!-- Script inline para aplicar traducciones inmediatamente -->
+    <script is:inline>
+      (function() {
+        // Use pre-loaded translations
+        const translations = window.__PORTFOLIO_TRANSLATIONS__ || {};
+        const currentLang = window.__PORTFOLIO_LANG__ || 'es';
+        
+        function getTranslation(path, lang) {
+          const keys = path.split('.');
+          let value = translations;
+          for (const key of keys) {
+            value = value[key];
+            if (!value) return null;
+          }
+          return value[lang] || value['es'];
+        }
+        
+        function applyTranslations() {
+          // Translate all data-i18n elements
+          document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (key) {
+              const translation = getTranslation(key, currentLang);
+              if (translation) el.textContent = translation;
+            }
+          });
+          
+          // Translate project titles and descriptions
+          document.querySelectorAll('[data-project-title]').forEach(el => {
+            const slug = el.getAttribute('data-project-slug');
+            if (slug && translations.projectDescriptions && translations.projectDescriptions[slug]) {
+              el.textContent = translations.projectDescriptions[slug].title[currentLang] || translations.projectDescriptions[slug].title['es'];
+            }
+          });
+          
+          document.querySelectorAll('[data-project-description]').forEach(el => {
+            const slug = el.getAttribute('data-project-slug');
+            if (slug && translations.projectDescriptions && translations.projectDescriptions[slug]) {
+              el.textContent = translations.projectDescriptions[slug].description[currentLang] || translations.projectDescriptions[slug].description['es'];
+            }
+          });
+          
+          // Show body
+          document.body.classList.add('translations-ready');
+        }
+        
+        // Apply translations as soon as possible
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', applyTranslations);
+        } else {
+          applyTranslations();
+        }
+      })();
+    </script>
+    
+    <header class="sticky top-0 z-50 backdrop-blur-md" style="background-color: var(--header-bg); border-bottom: 1px solid var(--border-color);">
       <div class="container mx-auto px-6">
         <nav class="flex items-center justify-between h-16">
-          <a href="/" class="text-xl font-bold text-primary-600 dark:text-primary-400 ml-2">
+          <a href="/" class="text-xl font-bold ml-2" style="color: var(--portfolio-text);" data-i18n="nav.portfolio">
             Portfolio
           </a>
           <div class="hidden md:flex space-x-12 mr-2">
-            <a href="/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Inicio</a>
-            <a href="/projects" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Proyectos</a>
-            <a href="/about" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Sobre mí</a>
-            <a href="/contact" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Contacto</a>
+            <a href="/" class="transition-colors font-medium" style="color: var(--text-primary);" onmouseover="this.style.color='var(--nav-link-hover)'" onmouseout="this.style.color='var(--text-primary)'" data-i18n="nav.home">Inicio</a>
+            <a href="/projects" class="transition-colors font-medium" style="color: var(--text-primary);" onmouseover="this.style.color='var(--nav-link-hover)'" onmouseout="this.style.color='var(--text-primary)'" data-i18n="nav.projects">Proyectos</a>
+            <a href="/about" class="transition-colors font-medium" style="color: var(--text-primary);" onmouseover="this.style.color='var(--nav-link-hover)'" onmouseout="this.style.color='var(--text-primary)'" data-i18n="nav.about">Sobre mí</a>
+            <a href="/contact" class="transition-colors font-medium" style="color: var(--text-primary);" onmouseover="this.style.color='var(--nav-link-hover)'" onmouseout="this.style.color='var(--text-primary)'" data-i18n="nav.contact">Contacto</a>
           </div>
+          
+          <!-- Botones de idioma y tema -->
+          <div class="flex items-center space-x-3 mr-2">
+            <!-- Selector de idioma -->
+            <div class="relative">
+              <button 
+                id="language-selector" 
+                class="flex items-center space-x-1 hover:text-primary-700 dark:hover:text-primary-300 transition-colors font-medium w-12 justify-center"
+                style="color: var(--language-text);"
+              >
+                <span id="current-language" class="w-6 text-center">ES</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              
+              <!-- Dropdown de idiomas -->
+              <div 
+                id="language-dropdown" 
+                class="absolute right-0 mt-2 w-20 rounded-lg shadow-lg opacity-0 invisible transition-all duration-200 z-50"
+                style="background-color: var(--dropdown-bg); border: 1px solid var(--dropdown-border);"
+              >
+                <div class="py-1">
+                  <button 
+                    class="language-option w-full px-3 py-2 text-left text-sm transition-colors"
+                    style="color: var(--dropdown-text);"
+                    onmouseover="this.style.backgroundColor='var(--dropdown-hover-bg)'"
+                    onmouseout="this.style.backgroundColor='transparent'"
+                    data-lang="ES"
+                  >
+                    ES
+                  </button>
+                  <button 
+                    class="language-option w-full px-3 py-2 text-left text-sm transition-colors"
+                    style="color: var(--dropdown-text);"
+                    onmouseover="this.style.backgroundColor='var(--dropdown-hover-bg)'"
+                    onmouseout="this.style.backgroundColor='transparent'"
+                    data-lang="EN"
+                  >
+                    EN
+                  </button>
+                  <button 
+                    class="language-option w-full px-3 py-2 text-left text-sm transition-colors"
+                    style="color: var(--dropdown-text);"
+                    onmouseover="this.style.backgroundColor='var(--dropdown-hover-bg)'"
+                    onmouseout="this.style.backgroundColor='transparent'"
+                    data-lang="PT"
+                  >
+                    PT
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Toggle de tema -->
+            <button 
+              id="theme-toggle" 
+              class="hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+              style="color: var(--theme-icon);"
+            >
+              <!-- Icono de luna (tema oscuro activo) -->
+              <svg id="moon-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+              </svg>
+              <!-- Icono de sol (tema claro activo) -->
+              <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+              </svg>
+            </button>
+          </div>
+          
           <button class="md:hidden mr-2" id="mobile-menu-button">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -109,20 +507,20 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
 
-    <footer class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <footer style="background-color: var(--footer-bg); border-top: 1px solid var(--border-color);">
       <div class="container mx-auto px-4 py-8">
         <div class="flex flex-col md:flex-row justify-between items-center">
-          <p class="text-gray-600 dark:text-gray-400 text-sm">
+          <p class="text-sm" style="color: var(--text-secondary);" data-i18n="footer.rights">
             © 2025 Portfolio. Todos los derechos reservados.
           </p>
           <div class="flex space-x-4 mt-4 md:mt-0">
-            <a href="https://github.com/nacho202" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+            <a href="https://github.com/nacho202" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-primary-600 dark:hover:text-primary-400" style="color: var(--text-secondary);">
               GitHub
             </a>
-            <a href="https://www.instagram.com/dev.novateam/" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+            <a href="https://www.instagram.com/dev.novateam/" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-primary-600 dark:hover:text-primary-400" style="color: var(--text-secondary);">
               Instagram
             </a>
-            <a href="https://wa.me/5493515285112?text=Hola%20Nacho%2C%20soy%20%5BNombre%5D%20%F0%9F%91%8B%20Vi%20tu%20portfolio%20y%20quiero%20charlar%20sobre%20mi%20pr%C3%B3ximo%20sue%C3%B1o.%20%C2%BFTen%C3%A9s%20un%20hueco%20esta%20semana%3F" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+            <a href="https://wa.me/5493515285112?text=Hola%20Nacho%2C%20soy%20%5BNombre%5D%20%F0%9F%91%8B%20Vi%20tu%20portfolio%20y%20quiero%20charlar%20sobre%20mi%20pr%C3%B3ximo%20sue%C3%B1o.%20%C2%BFTen%C3%A9s%20un%20hueco%20esta%20semana%3F" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-primary-600 dark:hover:text-primary-400" style="color: var(--text-secondary);">
               WhatsApp
             </a>
           </div>
@@ -130,29 +528,177 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       </div>
     </footer>
 
-    <script>
+    <script is:inline>
+      // Use pre-loaded translations from window object
+      const translations = window.__PORTFOLIO_TRANSLATIONS__ || {};
+      
+      // Helper function to get translation
+      function getTranslation(path, lang = 'es') {
+        const keys = path.split('.');
+        let value = translations;
+        
+        for (const key of keys) {
+          value = value[key];
+          if (!value) return path;
+        }
+        
+        return value[lang] || value['es'] || path;
+      }
+      
+      // Get current language (already detected in head script)
+      function getCurrentLanguage() {
+        return window.__PORTFOLIO_LANG__ || document.documentElement.getAttribute('data-lang') || 'es';
+      }
+      
+      // Update mobile menu with translations
+      function updateMobileMenu() {
+        const currentLang = getCurrentLanguage();
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenu) {
+          mobileMenu.innerHTML = `
+            <div class="px-4 py-4 space-y-2">
+              <a href="/" class="block py-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">${getTranslation('nav.home', currentLang)}</a>
+              <a href="/projects" class="block py-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">${getTranslation('nav.projects', currentLang)}</a>
+              <a href="/about" class="block py-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">${getTranslation('nav.about', currentLang)}</a>
+              <a href="/contact" class="block py-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">${getTranslation('nav.contact', currentLang)}</a>
+            </div>
+          `;
+        }
+      }
+      
+      // Initialize language selector display
+      document.addEventListener('DOMContentLoaded', () => {
+        const currentLang = getCurrentLanguage();
+        const currentLanguageEl = document.getElementById('current-language');
+        if (currentLanguageEl) {
+          currentLanguageEl.textContent = currentLang.toUpperCase();
+        }
+      });
+      
       // Mobile menu toggle
       const mobileMenuButton = document.getElementById('mobile-menu-button');
       const mobileMenu = document.createElement('div');
       mobileMenu.id = 'mobile-menu';
       mobileMenu.className = 'md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700';
-      mobileMenu.innerHTML = `
-        <div class="px-4 py-4 space-y-2">
-          <a href="/" class="block py-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Inicio</a>
-          <a href="/projects" class="block py-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Proyectos</a>
-          <a href="/about" class="block py-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Sobre mí</a>
-          <a href="/contact" class="block py-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contacto</a>
-        </div>
-      `;
       
       mobileMenuButton?.addEventListener('click', () => {
         const existingMenu = document.getElementById('mobile-menu');
         if (existingMenu) {
           existingMenu.remove();
         } else {
+          updateMobileMenu();
           mobileMenuButton.parentNode.parentNode.appendChild(mobileMenu);
         }
       });
+
+      // Language selector functionality
+      const languageSelector = document.getElementById('language-selector');
+      const languageDropdown = document.getElementById('language-dropdown');
+      const currentLanguageEl = document.getElementById('current-language');
+      const languageOptions = document.querySelectorAll('.language-option');
+
+      languageSelector?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isVisible = languageDropdown.classList.contains('opacity-100');
+        
+        if (isVisible) {
+          languageDropdown.classList.remove('opacity-100', 'visible');
+          languageDropdown.classList.add('opacity-0', 'invisible');
+        } else {
+          languageDropdown.classList.remove('opacity-0', 'invisible');
+          languageDropdown.classList.add('opacity-100', 'visible');
+        }
+      });
+
+      // Handle language selection
+      languageOptions.forEach(option => {
+        option.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const selectedLang = option.getAttribute('data-lang').toLowerCase();
+          
+          // Save to localStorage
+          localStorage.setItem('portfolio-language', selectedLang);
+          
+          // Update display
+          currentLanguageEl.textContent = selectedLang.toUpperCase();
+          
+          // Hide dropdown
+          languageDropdown.classList.remove('opacity-100', 'visible');
+          languageDropdown.classList.add('opacity-0', 'invisible');
+          
+          // Reload page to update all content
+          window.location.reload();
+        });
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', () => {
+        languageDropdown?.classList.remove('opacity-100', 'visible');
+        languageDropdown?.classList.add('opacity-0', 'invisible');
+      });
+
+      // Theme toggle functionality
+      const themeToggle = document.getElementById('theme-toggle');
+      const moonIcon = document.getElementById('moon-icon');
+      const sunIcon = document.getElementById('sun-icon');
+      const htmlElement = document.documentElement;
+      
+      // Función para aplicar el tema
+      function applyTheme(theme) {
+        if (theme === 'light') {
+          htmlElement.classList.remove('dark');
+          htmlElement.classList.add('light');
+          moonIcon.classList.add('hidden');
+          sunIcon.classList.remove('hidden');
+        } else {
+          htmlElement.classList.remove('light');
+          htmlElement.classList.add('dark');
+          sunIcon.classList.add('hidden');
+          moonIcon.classList.remove('hidden');
+        }
+      }
+      
+      // Función para obtener el tema actual
+      function getCurrentTheme() {
+        // Primero verificar si hay tema guardado en localStorage
+        const savedTheme = localStorage.getItem('portfolio-theme');
+        if (savedTheme) {
+          return savedTheme;
+        }
+        
+        // Si no hay localStorage, detectar preferencia del sistema
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+          return 'light';
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        
+        // Por defecto, tema oscuro
+        return 'dark';
+      }
+      
+      // Función para cambiar el tema
+      function toggleTheme() {
+        const currentTheme = getCurrentTheme();
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        // Guardar en localStorage
+        localStorage.setItem('portfolio-theme', newTheme);
+        
+        // Aplicar el nuevo tema
+        applyTheme(newTheme);
+        
+        console.log(`Tema cambiado a: ${newTheme}`);
+      }
+      
+      // Inicializar tema al cargar la página
+      document.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = getCurrentTheme();
+        applyTheme(savedTheme);
+      });
+      
+      // Event listener para el botón de tema
+      themeToggle?.addEventListener('click', toggleTheme);
     </script>
   </body>
 </html>

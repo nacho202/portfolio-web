@@ -14,10 +14,10 @@ const allTags = [...new Set(allProjects.flatMap(project => project.data.tags))];
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
-        <h1 class="text-5xl font-bold text-gray-900 dark:text-white mb-6">
+        <h1 class="text-5xl font-bold mb-6" style="color: var(--section-title);" data-i18n="projects.title">
           Mis Proyectos
         </h1>
-        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p class="text-xl max-w-2xl mx-auto" style="color: var(--section-description);" data-i18n="projects.description">
           Una colección de proyectos que muestran mi experiencia y pasión por el desarrollo
         </p>
       </div>
@@ -26,14 +26,19 @@ const allTags = [...new Set(allProjects.flatMap(project => project.data.tags))];
       <div class="mb-12">
         <div class="flex flex-wrap justify-center gap-3">
           <button 
-            class="filter-btn active px-4 py-2 rounded-full bg-primary-600 text-white font-medium transition-colors"
+            class="filter-btn active px-4 py-2 rounded-full font-medium transition-colors"
+            style="background-color: var(--filter-active-bg); color: var(--filter-active-text);"
             data-tag="all"
+            data-i18n="projects.all"
           >
             Todos
           </button>
           {allTags.map((tag) => (
             <button 
-              class="filter-btn px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-900 font-medium transition-colors"
+              class="filter-btn px-4 py-2 rounded-full font-medium transition-colors"
+              style="background-color: var(--filter-bg); color: var(--filter-text);"
+              onmouseover="this.style.backgroundColor='var(--filter-hover-bg)'; this.style.color='var(--filter-hover-text)'"
+              onmouseout="if(!this.classList.contains('active')) { this.style.backgroundColor='var(--filter-bg)'; this.style.color='var(--filter-text)' }"
               data-tag={tag}
             >
               {tag}
@@ -59,7 +64,7 @@ const allTags = [...new Set(allProjects.flatMap(project => project.data.tags))];
 
       {sortedProjects.length === 0 && (
         <div class="text-center py-12">
-          <p class="text-gray-600 dark:text-gray-400 text-lg">
+          <p class="text-lg" style="color: var(--section-description);" data-i18n="projects.noProjects">
             No hay proyectos disponibles en este momento.
           </p>
         </div>
@@ -79,12 +84,14 @@ const allTags = [...new Set(allProjects.flatMap(project => project.data.tags))];
       
       // Actualizar botones activos
       filterButtons.forEach(btn => {
-        btn.classList.remove('active', 'bg-primary-600', 'text-white');
-        btn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+        btn.classList.remove('active');
+        btn.style.backgroundColor = 'var(--filter-bg)';
+        btn.style.color = 'var(--filter-text)';
       });
       
-      button.classList.add('active', 'bg-primary-600', 'text-white');
-      button.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+      button.classList.add('active');
+      button.style.backgroundColor = 'var(--filter-active-bg)';
+      button.style.color = 'var(--filter-active-text)';
       
       // Filtrar proyectos
       projectItems.forEach(item => {

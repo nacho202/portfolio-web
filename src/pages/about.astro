@@ -7,32 +7,37 @@ import Layout from '../layouts/Layout.astro';
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-16">
-          <h1 class="text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          <h1 class="text-5xl font-bold mb-6" style="color: var(--section-title);" data-i18n="about.title">
             Sobre mí
           </h1>
-          <p class="text-xl text-gray-600 dark:text-gray-300">
+          <p class="text-xl" style="color: var(--section-description);" data-i18n="about.subtitle">
             Conoce mi historia y experiencia
           </p>
         </div>
 
         <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
           <div>
-            <img 
-              src="/about/logo.webp" 
-              alt="Foto de perfil" 
-              class="w-full max-w-md mx-auto rounded-lg shadow-lg"
-            />
+            <div class="w-full max-w-md mx-auto rounded-lg shadow-lg p-1" style="background: var(--image-border);">
+              <img 
+                src="/about/logo.webp" 
+                alt="Foto de perfil" 
+                class="w-full rounded-lg"
+              />
+            </div>
           </div>
           <div>
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-              Desarrollador Full Stack
+            <h2 class="text-3xl font-bold mb-6 flex items-center gap-2" style="color: var(--timeline-text);">
+              <span data-i18n="about.role">Desarrollador</span> <span style="color: var(--highlight-text);" data-i18n="about.fullStack">Full Stack</span>
+              <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20" style="color: var(--highlight-text);">
+                <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              </svg>
             </h2>
-            <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+            <p class="text-lg mb-6" style="color: var(--timeline-text);" data-i18n="about.description1">
               Con 1 año de experiencia en desarrollo web, me especializo en crear 
               aplicaciones modernas y escalables. Mi pasión es transformar ideas complejas 
               en soluciones elegantes y funcionales.
             </p>
-            <p class="text-lg text-gray-600 dark:text-gray-300">
+            <p class="text-lg" style="color: var(--timeline-text);" data-i18n="about.description2">
               Cuando no estoy programando, dedico mi tiempo a explorar nuevas tecnologías 
               y frameworks que están revolucionando el desarrollo web. Me apasiona aprender 
               continuamente, ya sea experimentando con nuevas herramientas, estudiando 
@@ -43,13 +48,13 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="mb-16">
-          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+          <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--section-title);" data-i18n="about.technicalSkills">
             Habilidades Técnicas
           </h2>
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Frontend</h3>
-              <ul class="space-y-2 text-gray-600 dark:text-gray-300">
+            <div class="p-6 rounded-lg" style="background-color: var(--skills-bg); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+              <h3 class="text-xl font-bold mb-4" style="color: var(--skills-title);" data-i18n="about.frontend">Frontend</h3>
+              <ul class="space-y-2" style="color: var(--skills-text);">
                 <li>• HTML5 & CSS3</li>
                 <li>• JavaScript ES6+</li>
                 <li>• React & Vite</li>
@@ -57,9 +62,9 @@ import Layout from '../layouts/Layout.astro';
                 <li>• Astro</li>
               </ul>
             </div>
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Backend</h3>
-              <ul class="space-y-2 text-gray-600 dark:text-gray-300">
+            <div class="p-6 rounded-lg" style="background-color: var(--skills-bg); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+              <h3 class="text-xl font-bold mb-4" style="color: var(--skills-title);" data-i18n="about.backend">Backend</h3>
+              <ul class="space-y-2" style="color: var(--skills-text);">
                 <li>• Node.js & Express</li>
                 <li>• Redis</li>
                 <li>• APIs RESTful</li>
@@ -67,9 +72,9 @@ import Layout from '../layouts/Layout.astro';
                 <li>• Middleware personalizado</li>
               </ul>
             </div>
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Herramientas</h3>
-              <ul class="space-y-2 text-gray-600 dark:text-gray-300">
+            <div class="p-6 rounded-lg" style="background-color: var(--skills-bg); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+              <h3 class="text-xl font-bold mb-4" style="color: var(--skills-title);" data-i18n="about.tools">Herramientas</h3>
+              <ul class="space-y-2" style="color: var(--skills-text);">
                 <li>• Git & GitHub</li>
                 <li>• Vercel & Netlify</li>
                 <li>• Vite & Webpack</li>
@@ -81,20 +86,25 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="mb-16">
-          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+          <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--section-title);" data-i18n="about.timeline">
             Timeline Profesional
           </h2>
           <div class="space-y-8">
             <div class="flex items-start space-x-4">
-              <div class="flex-shrink-0 w-4 h-4 bg-primary-600 rounded-full mt-2"></div>
+              <div class="flex-shrink-0 w-4 h-4 rounded-full mt-2" style="background-color: var(--company-text);"></div>
               <div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Desarrollador Full Stack</h3>
-                <p class="text-primary-600 dark:text-primary-400 font-medium">
-                  <a href="https://www.instagram.com/freemindunion/" target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
+                <h3 class="text-xl font-bold flex items-center gap-2" style="color: var(--timeline-text);">
+                  <span data-i18n="about.role">Desarrollador</span> <span style="color: var(--highlight-text);" data-i18n="about.fullStack">Full Stack</span>
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" style="color: var(--highlight-text);">
+                    <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                </h3>
+                <p class="font-medium" style="color: var(--company-text);">
+                  <a href="https://www.instagram.com/freemindunion/" target="_blank" rel="noopener noreferrer" class="hover:underline transition-colors">
                     FreeMind Union
                   </a> • 2023 - 2025
                 </p>
-                <p class="text-gray-600 dark:text-gray-300 mt-2">
+                <p class="mt-2" style="color: var(--timeline-text);" data-i18n="about.timelineDescription">
                   Desarrollo de soluciones web completas incluyendo landing pages optimizadas, 
                   sistemas de acortamiento de URLs y plataformas de certificados automáticos. 
                   Especialización en crear experiencias digitales que combinan funcionalidad 
@@ -108,7 +118,11 @@ import Layout from '../layouts/Layout.astro';
         <div class="text-center">
           <a 
             href="/contact" 
-            class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+            class="px-8 py-3 rounded-lg font-medium transition-colors"
+            style="background-color: var(--btn-primary-bg); color: var(--btn-primary-text);"
+            onmouseover="this.style.backgroundColor='var(--btn-primary-hover)'"
+            onmouseout="this.style.backgroundColor='var(--btn-primary-bg)'"
+            data-i18n="about.workTogether"
           >
             Trabajemos Juntos
           </a>
